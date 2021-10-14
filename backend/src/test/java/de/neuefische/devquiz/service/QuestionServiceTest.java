@@ -28,12 +28,12 @@ class QuestionServiceTest {
            "Question with id '205'",
            null
         );
-        questionRepo.addQuestion(questionToAdd);
+        questionRepo.save(questionToAdd);
 
-        when(questionRepo.get("209")).thenThrow(NullPointerException.class);
+        when(questionRepo.findById("209")).thenThrow(NullPointerException.class);
 
         //WHEN
-        verify(questionRepo).addQuestion(questionToAdd);
+        verify(questionRepo).save(questionToAdd);
         Assertions.assertThrows(NullPointerException.class, () -> {
             questionService.get("209");
         });

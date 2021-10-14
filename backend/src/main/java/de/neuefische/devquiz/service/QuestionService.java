@@ -20,11 +20,11 @@ public class QuestionService {
     }
 
     public List<Question> getAllQuestions() {
-        return questionRepo.getAllQuestions();
+        return questionRepo.findAll();
     }
 
     public Question addQuestion(Question newQuestion){
-        return questionRepo.addQuestion(newQuestion);
+        return questionRepo.save(newQuestion);
     }
 
 
@@ -32,6 +32,6 @@ public class QuestionService {
         if (id == null) {
             throw new NullPointerException("Id not found!");
         }
-        return questionRepo.get(id);
+        return questionRepo.findById(id);
     }
 }
