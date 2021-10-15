@@ -9,8 +9,15 @@ function getQuestions() {
 
 function addQuestion(newQuestion) {
   return axios
-    .post('/api/question', newQuestion)
-    .then(response => response.data)
-    .catch(console.error)
+      .post('/api/question', newQuestion)
+      .then(response => response.data)
+      .catch(console.error)
 }
-export { getQuestions, addQuestion }
+
+function validateAnswers(validationObject) {
+  return axios
+      .post('/api/question/validate', validationObject)
+      .then(response => response.data)
+      .catch(console.error)
+}
+export { getQuestions, addQuestion, validateAnswers }

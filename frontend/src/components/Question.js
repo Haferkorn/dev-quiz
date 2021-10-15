@@ -11,7 +11,7 @@ function Question({ question }) {
           <Answer answer={answer} key={answer.id} questionId={question.id} />
         ))}
       </AnswerContainer>
-      <CheckButton>Check Answer</CheckButton>
+      <CheckButton onClick={validateQuestion}>Check Answer</CheckButton>
     </QuestionContainer>
   )
 }
