@@ -36,5 +36,5 @@ const AnswerContainer = styled.section`
   gap: 5px;
   background-color: ${props=>
           props.colorValue==="initial" ? "white" :
-                  props.colorValue==="correct"? "green": "red"}
+                  props.colorValue==="correct"? "#A4D4B4": "#FCAA90"}
 `
