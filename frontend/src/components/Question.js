@@ -1,14 +1,38 @@
 import * as React from 'react'
 import Answer from './Answer'
 import styled from 'styled-components'
+import {useState} from "react";
+import {validateAnswers} from "../service/DevQuizApiService";
 
 function Question({ question }) {
+
+    const [answerIdState,setAnswerIdState]=useState("")
+    const [correctAnswerIdState,setCorrectAnswerIdState]=useState("")
+
+    const handleChoice=answerId=>setAnswerIdState(answerId);
+
+    function validateQuestion(){
+        const validateObject = {
+            questionID: question.id,
+            answerID: answerIdState
+        }
+        validateAnswers(validateObject).then(result=>{
+            if(JSON.stringify(result)===JSON.stringify(validateObject)){
+                setCorrectAnswerIdState(true);
+                console.log("Yeay")
+            }else{
+                setCorrectAnswerIdState(false);
+                console.log("Nope")
+        }}
+        )
+    }
+
   return (
     <QuestionContainer>
       <h3>{question.questionText}</h3>
       <AnswerContainer>
         {question.answers.map(answer => (
-          <Answer answer={answer} key={answer.id} questionId={question.id} />
+          <Answer answer={answer} key={answer.id} questionId={question.id} handleChoice={handleChoice}/>
         ))}
       </AnswerContainer>
       <CheckButton onClick={validateQuestion}>Check Answer</CheckButton>
