@@ -34,6 +34,8 @@ const AnswerContainer = styled.section`
   display: flex;
   align-items: center;
   gap: 5px;
+  border-radius: 20px;
+  margin: 10px;
   background-color: ${props=>
           props.colorValue==="initial" ? "white" :
                   props.colorValue==="correct"? "#A4D4B4": "#FCAA90"}
