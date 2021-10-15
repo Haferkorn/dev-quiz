@@ -7,7 +7,7 @@ import {validateAnswers} from "../service/DevQuizApiService";
 function Question({ question }) {
 
     const [answerIdState,setAnswerIdState]=useState("")
-    const [correctAnswerIdState,setCorrectAnswerIdState]=useState("")
+    const [correctAnswerIdState,setCorrectAnswerIdState]=useState("initial")
 
     const handleChoice=answerId=>setAnswerIdState(answerId);
 
@@ -18,10 +18,10 @@ function Question({ question }) {
         }
         validateAnswers(validateObject).then(result=>{
             if(JSON.stringify(result)===JSON.stringify(validateObject)){
-                setCorrectAnswerIdState(true);
+                setCorrectAnswerIdState("correct");
                 console.log("Yeay")
             }else{
-                setCorrectAnswerIdState(false);
+                setCorrectAnswerIdState("not-correct");
                 console.log("Nope")
         }}
         )
@@ -46,8 +46,11 @@ const QuestionContainer = styled.section`
   border: 1px solid #009fb7;
   border-radius: 20px;
   padding: 20px;
-  background-color: #EAF6FF;
-  font-family: 'Montserrat', sans-serif;;
+  background-color: ${props=>
+                  props.state==="initial" ? "white" : 
+                  props.state==="correct" ? "green": 'red'};
+  font-family: 'Montserrat', sans-serif;
+);
 `
 
 const AnswerContainer = styled.section`
