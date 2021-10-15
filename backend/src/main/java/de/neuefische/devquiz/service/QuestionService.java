@@ -39,14 +39,14 @@ public class QuestionService {
     }
 
 
-    public ValidationInfo validateQuestion(String questionId, String answerId) {
-            Optional<Question> questionToCheck = questionRepo.findById(questionId);
+    public ValidationInfo validateQuestion(ValidationInfo infosFromFrontend) {
+            Optional<Question> questionToCheck = questionRepo.findById(infosFromFrontend.getQuestionID());
             List<Answer> allAnswers = questionToCheck.get().getAnswers();
-            ValidationInfo validationAnswer = new ValidationInfo(questionId, null, false);
+            ValidationInfo validationAnswer = new ValidationInfo(infosFromFrontend.getQuestionID(), null);
             for (Answer answer : allAnswers) {
                 if (answer.isCorrect()) {
                     validationAnswer.setAnswerID(answer.getId());
-                    validationAnswer.setStatus(true);
+
                 }
             }
             return validationAnswer;

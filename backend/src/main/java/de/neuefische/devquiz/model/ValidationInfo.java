@@ -8,5 +8,4 @@ import lombok.Data;
 public class ValidationInfo {
     private String questionID;
     private String answerID;
-    private boolean status; 
 }
