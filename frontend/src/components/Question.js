@@ -28,7 +28,7 @@ function Question({ question }) {
     }
 
   return (
-    <QuestionContainer>
+    <QuestionContainer state={correctAnswerIdState}>
       <h3>{question.questionText}</h3>
       <AnswerContainer>
         {question.answers.map(answer => (
