@@ -1,9 +1,28 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import {useEffect, useState} from "react";
 
-function Answer({ answer, questionId,handleChoice }) {
+function Answer({ answer, questionId,handleChoice,correctAnswerId }) {
+    const [idState, setIdState]=useState("")
+
+    useEffect(()=>{
+        validateID()
+    },[correctAnswerId])
+
+    function validateID(){
+        if (correctAnswerId===""){
+            setIdState("initial")
+        }else if(answer.id===correctAnswerId){
+            setIdState("correct")
+        }
+        else{
+            setIdState("not-correct")
+        }
+
+    }
+
   return (
-    <AnswerContainer>
+    <AnswerContainer colorValue={idState}>
       <input type="radio" name={questionId} onChange={()=>handleChoice(answer.id)} />
       <h4>{answer.answerText}</h4>
     </AnswerContainer>
@@ -15,4 +34,7 @@ const AnswerContainer = styled.section`
   display: flex;
   align-items: center;
   gap: 5px;
+  background-color: ${props=>
+          props.colorValue==="initial" ? "white" :
+                  props.colorValue==="correct"? "green": "red"}
 `

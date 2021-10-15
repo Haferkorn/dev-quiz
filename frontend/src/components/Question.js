@@ -8,6 +8,7 @@ function Question({ question }) {
 
     const [answerIdState,setAnswerIdState]=useState("")
     const [correctAnswerIdState,setCorrectAnswerIdState]=useState("initial")
+    const [correctAnswerID,setCorrectAnswerID]=useState("")
 
     const handleChoice=answerId=>setAnswerIdState(answerId);
 
@@ -17,6 +18,7 @@ function Question({ question }) {
             answerID: answerIdState
         }
         validateAnswers(validateObject).then(result=>{
+            setCorrectAnswerID(result.answerID)
             if(JSON.stringify(result)===JSON.stringify(validateObject)){
                 setCorrectAnswerIdState("correct");
                 console.log("Yeay")
@@ -32,7 +34,13 @@ function Question({ question }) {
       <h3>{question.questionText}</h3>
       <AnswerContainer>
         {question.answers.map(answer => (
-          <Answer answer={answer} key={answer.id} questionId={question.id} handleChoice={handleChoice}/>
+          <Answer
+              answer={answer}
+              key={answer.id}
+              questionId={question.id}
+              handleChoice={handleChoice}
+              correctAnswerId={correctAnswerID}
+              />
         ))}
       </AnswerContainer>
       <CheckButton onClick={validateQuestion}>Check Answer</CheckButton>
