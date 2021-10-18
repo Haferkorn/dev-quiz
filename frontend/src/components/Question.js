@@ -21,10 +21,8 @@ function Question({ question }) {
             setCorrectAnswerID(result.answerID)
             if(JSON.stringify(result)===JSON.stringify(validateObject)){
                 setCorrectAnswerIdState("correct");
-                console.log("Yeay")
             }else{
                 setCorrectAnswerIdState("not-correct");
-                console.log("Nope")
         }}
         )
     }
@@ -65,13 +63,13 @@ const AnswerContainer = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 0px 0px;
+  gap: 0 0;
   grid-template-areas:
     '. .'
     '. .';
 `
 const CheckButton = styled.button`
-  box-shadow: inset 0px 1px 0px 0px #ffffff;
+  box-shadow: inset 0 1px 0 0 #ffffff;
   background-color: #757780;
   border-radius: 6px;
   border: 1px solid #dcdcdc;
