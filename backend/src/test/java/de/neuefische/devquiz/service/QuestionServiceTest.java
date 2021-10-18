@@ -64,8 +64,6 @@ class QuestionServiceTest {
         ValidationInfo actual = questionService.validateQuestion(validationInfo1);
         Assertions.assertEquals(validationInfo1, actual);
 
-
-
     }
 
     @Test
@@ -85,7 +83,6 @@ class QuestionServiceTest {
         ValidationInfo validationInfo1 = new ValidationInfo("205", "1");
         ValidationInfo actual = questionService.validateQuestion(validationInfo1);
         Assertions.assertEquals(new ValidationInfo("205", "2"), actual);
-
 
 
     }
