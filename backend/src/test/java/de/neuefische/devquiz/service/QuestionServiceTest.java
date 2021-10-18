@@ -1,17 +1,21 @@
 package de.neuefische.devquiz.service;
 
+import de.neuefische.devquiz.model.Answer;
 import de.neuefische.devquiz.model.Question;
+import de.neuefische.devquiz.model.ValidationInfo;
 import de.neuefische.devquiz.repo.QuestionRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
 class QuestionServiceTest {
 
     QuestionRepo questionRepo = mock(QuestionRepo.class);
-    QuestionService questionService;
+    QuestionService questionService = new QuestionService(questionRepo);
 
     @Test
     @DisplayName("returns a list of all existing questions")
@@ -42,6 +46,26 @@ class QuestionServiceTest {
     }
 
     @Test
-    void addQuestion() {
+    void validateQuestion() {
+        //GIVEN
+        Question questionToValidate1 = new Question(
+                "205",
+                "Question with id '205'",
+                List.of(new Answer("1", "Antwort, die es zu validieren gilt",true))
+
+        );
+
+        //WHEN
+        when(questionRepo.findById("205")).thenReturn(java.util.Optional.of(questionToValidate1));
+
+        //THEN
+        ValidationInfo validationInfo1 = new ValidationInfo("205", "1");
+        ValidationInfo actual = questionService.validateQuestion(validationInfo1);
+        Assertions.assertEquals(validationInfo1, actual);
+
+
+
     }
+
+
 }
