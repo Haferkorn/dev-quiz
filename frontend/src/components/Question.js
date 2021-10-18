@@ -56,7 +56,7 @@ const QuestionContainer = styled.section`
   padding: 20px;
   background-color: ${props=>
                   props.state==="initial" ? "white" : 
-                  props.state==="correct" ? "green": 'red'};
+                  props.state==="correct" ? "#4E6E5D": '#A53F2B'};
   font-family: 'Montserrat', sans-serif;
 );
 `
