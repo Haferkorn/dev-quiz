@@ -95,13 +95,13 @@ class DevQuizControllerTest {
     }
 
     @Test
-    @DisplayName("Should add a new question item to the db")
+    @DisplayName("Should check if Validationinfo Object coming from the Frontend corresponds with correct answer")
     void testToValidate() {
         // GIVEN
         Question questionToValidate = new Question(
                 "205",
                 "Question with id '205'",
-                List.of(new Answer("1", "Antwort, die es zu validieren gilt",true))
+                List.of(new Answer("1", "Antwort, die es zu validieren gilt",true),new Answer("2", "Antwort, die es zu validieren gilt",false))
 
         );
         ResponseEntity<Question> postResponseEntity = testRestTemplate.postForEntity("/api/question/", questionToValidate, Question.class);
@@ -115,6 +115,30 @@ class DevQuizControllerTest {
         assertThat(postResponseEntity2.getStatusCode(), is(HttpStatus.OK));
         assertNotNull(actual);
         assertThat(actual, is(validationInfo));
+
+    }
+
+    @Test
+    @DisplayName("Should check if Validationinfo Object coming from the Frontend corresponds not with correct answer")
+    void testToValidate2() {
+        // GIVEN
+        Question questionToValidate = new Question(
+                "205",
+                "Question with id '205'",
+                List.of(new Answer("1", "Antwort, die es zu validieren gilt",false),new Answer("2", "Antwort, die es zu validieren gilt",true))
+
+        );
+        testRestTemplate.postForEntity("/api/question/", questionToValidate, Question.class);
+        ValidationInfo validationInfoComingFromFrontend = new ValidationInfo("205", "2");
+
+        // WHEN
+        ResponseEntity<ValidationInfo> postResponseEntity2 = testRestTemplate.postForEntity("/api/question/validate", validationInfoComingFromFrontend, ValidationInfo.class);
+        ValidationInfo actual = postResponseEntity2.getBody();
+
+        // THEN
+        assertThat(postResponseEntity2.getStatusCode(), is(HttpStatus.OK));
+        assertNotNull(actual);
+        assertThat(actual, is(new ValidationInfo("205","2")));
 
     }
 }
