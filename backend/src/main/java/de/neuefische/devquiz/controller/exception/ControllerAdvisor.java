@@ -11,15 +11,14 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @ControllerAdvice
-public class ControllerAdvicer extends ResponseEntityExceptionHandler {
+public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<ApiError> handleNoSuchElementExeption(NoSuchElementException ex){
-        log.error("Input not proceccable", ex);
-        System.out.println("Catched");
+    public ResponseEntity<ApiError> handleNoSuchElementException(NoSuchElementException ex){
+        log.error("Input not processable", ex);
 
-        ApiError apiError= new ApiError("Ressource not found",ex.getMessage());
+        ApiError apiError= new ApiError("Resource not found",ex.getMessage());
 
-        return new ResponseEntity<>(apiError, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 }
