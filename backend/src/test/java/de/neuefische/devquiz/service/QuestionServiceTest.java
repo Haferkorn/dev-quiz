@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -56,12 +57,34 @@ class QuestionServiceTest {
         );
 
         //WHEN
-        when(questionRepo.findById("205")).thenReturn(java.util.Optional.of(questionToValidate1));
+        when(questionRepo.findById("205")).thenReturn(Optional.of(questionToValidate1));
 
         //THEN
         ValidationInfo validationInfo1 = new ValidationInfo("205", "1");
         ValidationInfo actual = questionService.validateQuestion(validationInfo1);
         Assertions.assertEquals(validationInfo1, actual);
+
+
+
+    }
+
+    @Test
+    void validateQuestion2() {
+        //GIVEN
+        Question questionToValidate1 = new Question(
+                "205",
+                "Question with id '205'",
+                List.of(new Answer("1", "Antwort, die es zu validieren gilt",false),new Answer("2", "Antwort, die es zu validieren gilt",true))
+
+        );
+
+        //WHEN
+        when(questionRepo.findById("205")).thenReturn(Optional.of(questionToValidate1));
+
+        //THEN
+        ValidationInfo validationInfo1 = new ValidationInfo("205", "1");
+        ValidationInfo actual = questionService.validateQuestion(validationInfo1);
+        Assertions.assertEquals(new ValidationInfo("205", "2"), actual);
 
 
 
