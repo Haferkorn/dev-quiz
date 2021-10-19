@@ -1,6 +1,7 @@
 package de.neuefische.devquiz.controller;
 
 import de.neuefische.devquiz.model.Question;
+import de.neuefische.devquiz.model.ValidationInfo;
 import de.neuefische.devquiz.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,17 @@ public class DevQuizController {
     }
 
     @GetMapping("/api/question/{id}")
-    public Optional<Question> get(@PathVariable String id) {
+    public Question get(@PathVariable String id) {
         return questionService.get(id);
     }
 
     @PostMapping("/api/question")
     public Question addQuestion(@RequestBody Question newQuestion) {
         return questionService.addQuestion(newQuestion);
+    }
+
+    @PostMapping("/api/question/validate")
+    public ValidationInfo validateQuestion(@RequestBody ValidationInfo infosFromFrontend){
+        return questionService.validateQuestion(infosFromFrontend);
     }
 }

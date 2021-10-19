@@ -1,17 +1,47 @@
 import * as React from 'react'
 import Answer from './Answer'
 import styled from 'styled-components'
+import {useState} from "react";
+import {validateAnswers} from "../service/DevQuizApiService";
 
 function Question({ question }) {
+
+    const [answerIdState,setAnswerIdState]=useState("")
+    const [correctAnswerIdState,setCorrectAnswerIdState]=useState("initial")
+    const [correctAnswerID,setCorrectAnswerID]=useState("")
+
+    const handleChoice=answerId=>setAnswerIdState(answerId);
+
+    function validateQuestion(){
+        const validateObject = {
+            questionID: question.id,
+            answerID: answerIdState
+        }
+        validateAnswers(validateObject).then(result=>{
+            setCorrectAnswerID(result.answerID)
+            if(JSON.stringify(result)===JSON.stringify(validateObject)){
+                setCorrectAnswerIdState("correct");
+            }else{
+                setCorrectAnswerIdState("not-correct");
+        }}
+        )
+    }
+
   return (
-    <QuestionContainer>
+    <QuestionContainer state={correctAnswerIdState}>
       <h3>{question.questionText}</h3>
       <AnswerContainer>
         {question.answers.map(answer => (
-          <Answer answer={answer} key={answer.id} questionId={question.id} />
+          <Answer
+              answer={answer}
+              key={answer.id}
+              questionId={question.id}
+              handleChoice={handleChoice}
+              correctAnswerId={correctAnswerID}
+              />
         ))}
       </AnswerContainer>
-      <CheckButton>Check Answer</CheckButton>
+      <CheckButton onClick={validateQuestion}>Check Answer</CheckButton>
     </QuestionContainer>
   )
 }
@@ -22,21 +52,24 @@ const QuestionContainer = styled.section`
   border: 1px solid #009fb7;
   border-radius: 20px;
   padding: 20px;
-  background-color: #EAF6FF;
-  font-family: 'Montserrat', sans-serif;;
+  background-color: ${props=>
+                  props.state==="initial" ? "white" : 
+                  props.state==="correct" ? "#4E6E5D": '#A53F2B'};
+  font-family: 'Montserrat', sans-serif;
+);
 `
 
 const AnswerContainer = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 0px 0px;
+  gap: 0 0;
   grid-template-areas:
     '. .'
     '. .';
 `
 const CheckButton = styled.button`
-  box-shadow: inset 0px 1px 0px 0px #ffffff;
+  box-shadow: inset 0 1px 0 0 #ffffff;
   background-color: #757780;
   border-radius: 6px;
   border: 1px solid #dcdcdc;
