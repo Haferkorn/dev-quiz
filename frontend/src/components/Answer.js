@@ -2,12 +2,13 @@ import * as React from 'react'
 import styled from 'styled-components'
 import {useEffect, useState} from "react";
 
+
 function Answer({ answer, questionId,handleChoice,correctAnswerId }) {
     const [idState, setIdState]=useState("")
 
     useEffect(()=>{
         validateID()
-    },[correctAnswerId])
+    },)
 
     function validateID(){
         if (correctAnswerId===""){
